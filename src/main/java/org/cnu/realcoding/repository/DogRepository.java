@@ -1,5 +1,6 @@
 package org.cnu.realcoding.repository;
 
+import org.cnu.realcoding.exception.InvalidInput;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.cnu.realcoding.domain.Dog;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -8,12 +9,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import java.util.List;
 
 import lombok.Getter;
-import org.cnu.realcoding.domain.Dog;
-import org.cnu.realcoding.exception.DogNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +28,20 @@ public class DogRepository {
         //
     }
 
-    public Dog findDog(String name) {
-        Criteria cri = new Criteria("name"); // 키 입력
+    public Dog findDog(String name, int i) {
+        Criteria cri;
+        switch (i) {
+            case 1:
+                cri = new Criteria("name");
+                break;
+            case 2:
+                cri = new Criteria("ownerName");
+                break;
+            case 3:
+                cri = new Criteria("ownerPhoneNumber");
+                break;
+            default: throw new InvalidInput();
+        }
         cri.is(name); // 밸류 입력
         Query query = new Query(cri);
         Dog dog = (Dog) mongoTemplate.find(query, mongoTemplate.getClass()); // 조회 후 데이터 반환
