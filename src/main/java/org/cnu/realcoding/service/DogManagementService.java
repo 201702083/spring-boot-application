@@ -37,7 +37,7 @@ public class DogManagementService {
                 throw new DogNotFoundException(); // 에러
             }
         }
-        return dogRepository.findDog(name); // 조회 후 반환
+        return dogRepository.findDog(name,1); // 조회 후 반환
     }
 
     public Dog getDogByOwner(String owner){
@@ -46,7 +46,7 @@ public class DogManagementService {
                 throw new DogNotFoundException(); // 에러
             }   
         }
-        return dogRepository.findDog(owner); // 조회 후 반환
+        return dogRepository.findDog(owner,2); // 조회 후 반환
     }
 
     public Dog getDogByOwnerPhoneNumber(String number){
@@ -55,12 +55,12 @@ public class DogManagementService {
                 throw new DogNotFoundException();// 에러
             }
         }
-        return dogRepository.findDog(number); // 조회 후 반환
+        return dogRepository.findDog(number,3); // 조회 후 반환
     }
 
 
     public Dog changeDogKind(String dogName, String newKind) {
-        Dog dog = dogRepository.findDog(dogName);
+        Dog dog = dogRepository.findDog(dogName,1);
 
         if(dog == null) {
             throw new DogNotFoundException();
@@ -71,7 +71,7 @@ public class DogManagementService {
     }
 
     public List<String> addMedicalRecords(String dogName, String newMedicalRecords) {
-        Dog dog = dogRepository.findDog(dogName);
+        Dog dog = dogRepository.findDog(dogName,1);
 
         if(dog == null){
             throw new DogNotFoundException();
@@ -83,7 +83,7 @@ public class DogManagementService {
     }
 
     public Dog changeAllInfo(String oldName, String newName, String newKind, String newOwnerName, String newOwnerPhoneNumber) {
-        Dog dog = dogRepository.findDog(oldName);
+        Dog dog = dogRepository.findDog(oldName,1);
 
         if(dog == null){
             throw new DogNotFoundException();
