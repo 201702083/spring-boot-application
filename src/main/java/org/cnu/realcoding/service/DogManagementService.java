@@ -35,9 +35,7 @@ public class DogManagementService {
 
     public Dog getDogByName(String name) {
         for (Dog dog : dogRepository.getAllDogs()) {
-            System.out.println(dog);
-            System.out.println(dog.getName());
-            if (dog.getName().equals(name)) { // 이름이 겹치면
+            if (dog.getName().equals(name)) { // 이름이 일치하면
                 return dogRepository.findDog(name, 1); // 조회 후 반환
             }
         }
@@ -46,21 +44,21 @@ public class DogManagementService {
     }
 
     public Dog getDogByOwner(String owner){
-        for (Dog dog : dogRepository.getDogs()) {
-            if (!dog.getName().equals(owner)) { // 주인 이름이 겹치면
-                throw new DogNotFoundException(); // 에러
-            }   
+        for (Dog dog : dogRepository.getAllDogs()) {
+            if (dog.getName().equals(owner)) { // 주인이름이  일치하면
+                return dogRepository.findDog(owner, 2); // 조회 후 반환
+            }
         }
-        return dogRepository.findDog(owner, 2); // 조회 후 반환
+        throw new DogNotFoundException(); // 에러
     }
 
     public Dog getDogByOwnerPhoneNumber(String number){
-        for (Dog dog : dogRepository.getDogs()) {
-            if (!dog.getName().equals(number)) { // 폰 번호가 겹치면
-                throw new DogNotFoundException();// 에러
+        for (Dog dog : dogRepository.getAllDogs()) {
+            if (dog.getName().equals(number)) { // 번호가 일치하면
+                return dogRepository.findDog(number, 3); // 조회 후 반환
             }
         }
-        return dogRepository.findDog(number, 3); // 조회 후 반환
+        throw new DogNotFoundException(); // 에러
     }
 
 
