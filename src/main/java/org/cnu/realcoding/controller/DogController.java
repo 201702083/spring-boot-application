@@ -32,7 +32,7 @@ public class DogController {
     }
     @GetMapping("/dogs/name/{name}") // name으로 검색할 땐 /name/,,
     public Dog getDogByName(@PathVariable String name){
-        System.out.print("find dog by name");
+        System.out.println("find dog by name");
         return dogManagementService.getDogByName(name);
     }
     @GetMapping("/dogs/ownerName/{ownerName}") // ownerName 검색은 /ownerName/,,

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class DogRepository {
 
     public void insertDog(Dog dog) {
         System.out.println("Insert start!");
-//        dogs.add(dog);
+        dogs.add(dog);
 //        up.push("list").each(dogs);
         mongoTemplate.insert(dog);
         //
@@ -60,12 +61,12 @@ public class DogRepository {
         System.out.println("query 입력 !");
         System.out.println(query);
         Dog dog =  mongoTemplate.findOne(query, Dog.class); // 조회 후 데이터 반환
+        if (dog == null) System.out.println("해당 도그 없음 !!");
         System.out.println("도그 반환 !");
         return dog;
     }
     public List<Dog> getAllDogs(){
-        List<Dog> dogs = mongoTemplate.findAll(Dog.class);
-        return dogs;
+        return mongoTemplate.findAll(Dog.class);
     }
 
     public void changeDogKind(String newKind) {
@@ -83,28 +84,22 @@ public class DogRepository {
     }
 
     public boolean checkDogName(String name){ // 이름으로 검색
-        for(Dog dog : dogs){
-            if (dog.getName().equals(name)) {
-                return true;
-            }
+        if(findDog(name,1) == null){
+            return false;
         }
-        return false;
+        return true;
     }
     public boolean checkDogOwner(String Owner){ // 주인이름으로 검색
-        for(Dog dog : dogs){
-            if (dog.getOwnerName().equals(Owner)) {
-                return true;
-            }
+        if(findDog(Owner,2) == null){
+            return false;
         }
-        return false;
+        return true;
     }
     public boolean checkDogOwnerPhone(String number){ // 주인 번호로 검
-        for(Dog dog : dogs){
-            if (dog.getOwnerPhoneNumber().equals(number)) {
-                return true;
-            }
+        if(findDog(number,3) == null){
+            return false;
         }
-        return false;
+        return true;
 
     }
 }
