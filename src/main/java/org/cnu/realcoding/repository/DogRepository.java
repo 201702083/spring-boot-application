@@ -1,10 +1,10 @@
 package org.cnu.realcoding.repository;
 
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import org.cnu.realcoding.exception.InvalidInput;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.cnu.realcoding.domain.Dog;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.*;
 
 import java.util.List;
 
@@ -15,20 +15,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
+@Service
 public class DogRepository {
     @Autowired
     MongoTemplate mongoTemplate;
+
     @Getter
-    @Autowired
     private List<Dog> dogs = new ArrayList<>();
+//    Update up = new Update();
 
     public void insertDog(Dog dog) {
-
+        System.out.println("Insert start!");
+//        dogs.add(dog);
+//        up.push("list").each(dogs);
+        mongoTemplate.insert(dog);
         //
     }
 
@@ -48,21 +54,30 @@ public class DogRepository {
                 throw new InvalidInput();
 
         }
+        System.out.println("switch 통과 !");
         cri.is(name); // 밸류 입력
         Query query = new Query(cri);
-        Dog dog = (Dog) mongoTemplate.find(query, mongoTemplate.getClass()); // 조회 후 데이터 반환
+        System.out.println("query 입력 !");
+        System.out.println(query);
+        Dog dog =  mongoTemplate.findOne(query, Dog.class); // 조회 후 데이터 반환
+        System.out.println("도그 반환 !");
         return dog;
     }
-
-    public Dog changeDogKind(String newKind) {
-        // return changedDog
+    public List<Dog> getAllDogs(){
+        List<Dog> dogs = mongoTemplate.findAll(Dog.class);
+        return dogs;
     }
 
-    public List<String> addMedicalRecords(String newMedicalRecords) {
+    public void changeDogKind(String newKind) {
+        // return changedDog
+
+    }
+
+    public void addMedicalRecords(Dog dog,String newMedicalRecords) {
         // return added new List;
     }
 
-    public Dog changeAllInfo(String newName, String newKind, String newOwnerName, String newOwnerPhoneNumber) {
+    public void changeAllInfo(String newName, String newKind, String newOwnerName, String newOwnerPhoneNumber) {
 
         //mongoTemplate.insert(dog); // 데이터 추
     }
