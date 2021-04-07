@@ -77,11 +77,14 @@ public class DogManagementService {
     }
 
     public void addMedicalRecords(String dogName, String newMedicalRecords) {
+        System.out.println("manage start");
+
         Dog dog = dogRepository.findDog(dogName, 1);
 
         if(dog == null){
             throw new DogNotFoundException();
         }
+        System.out.println("manage pass");
         dogRepository.addMedicalRecords(dog, newMedicalRecords);
     }
 

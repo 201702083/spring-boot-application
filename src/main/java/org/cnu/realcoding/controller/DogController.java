@@ -60,8 +60,10 @@ public class DogController {
         dogManagementService.changeDogKind(dogName, newKind);
     }
     // HTTP Method : Patch
-    public void addMedicalRecords(@RequestBody String dogName, String newMedicalRecords){
+    @RequestMapping(value="/test/add/{dogName}/{newMedicalRecords}" , method = {RequestMethod.GET, RequestMethod.PATCH})
+    public void addMedicalRecords(@PathVariable String dogName,@PathVariable String newMedicalRecords){
         // dogName으로 dog 검색하여 newMedicalRecords 추가
+        System.out.println("start");
         dogManagementService.addMedicalRecords(dogName, newMedicalRecords);
     }
 }

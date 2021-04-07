@@ -2,6 +2,7 @@ package org.cnu.realcoding.repository;
 
 import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import org.cnu.realcoding.exception.InvalidInput;
+import org.springframework.data.mongodb.core.ExecutableUpdateOperation;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.cnu.realcoding.domain.Dog;
 import org.springframework.data.mongodb.core.query.*;
@@ -75,7 +76,11 @@ public class DogRepository {
     }
 
     public void addMedicalRecords(Dog dog,String newMedicalRecords) {
-        // return added new List;
+        Update up = new Update();
+        up.push("medicalRecords").each(newMedicalRecords);
+        Query query = new Query().addCriteria(Criteria.where( "name" ).is( dog.getName() ) );
+
+        mongoTemplate.updateFirst(query,up,"dog");
     }
 
     public void changeAllInfo(String newName, String newKind, String newOwnerName, String newOwnerPhoneNumber) {
