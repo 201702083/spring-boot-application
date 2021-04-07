@@ -54,8 +54,9 @@ public class DogController {
         dogManagementService.changeAllInfo(oldName, newName, newKind, newOwnerName, newOwnerPhoneNumber);
     }
     // HTTP Method : Patch
-    public void changeDogKind(@RequestBody String dogName, String newKind){
-        // dogName으로 dog 검색하여 newKind로 품종 변경
+    @RequestMapping(value="/test/{dogName}/{newKind}" , method = {RequestMethod.GET, RequestMethod.PATCH})
+    public void changeDogKind(@PathVariable String dogName,@PathVariable String newKind){
+        System.out.println("dog 검색");
         dogManagementService.changeDogKind(dogName, newKind);
     }
     // HTTP Method : Patch

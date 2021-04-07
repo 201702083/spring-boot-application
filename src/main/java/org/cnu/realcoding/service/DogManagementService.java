@@ -38,7 +38,7 @@ public class DogManagementService {
     }
 
     public Dog getDogByName(String name) {
-        for (Dog dog : dogRepository.getDogs()) {
+        for (Dog dog : dogRepository.getAllDogs()) {
             if (!dog.getName().equals(name)) { // 이름이 겹치면
                 throw new DogNotFoundException(); // 에러
             }
@@ -68,11 +68,11 @@ public class DogManagementService {
 
     public void changeDogKind(String dogName, String newKind) {
         Dog dog = dogRepository.findDog(dogName, 1);
-
         if(dog == null) {
+
             throw new DogNotFoundException();
         }
-        dogRepository.changeDogKind(newKind);
+        dogRepository.changeDogKind(dogName,newKind);
 
     }
 

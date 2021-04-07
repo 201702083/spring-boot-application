@@ -32,8 +32,8 @@ public class DogRepository {
 //    Update up = new Update();
 
     public void insertDog(Dog dog) {
-        System.out.println("Insert start!");
-        dogs.add(dog);
+//        System.out.println("Insert start!");
+//        dogs.add(dog);
 //        up.push("list").each(dogs);
         mongoTemplate.insert(dog);
         //
@@ -55,23 +55,23 @@ public class DogRepository {
                 throw new InvalidInput();
 
         }
-        System.out.println("switch 통과 !");
         cri.is(name); // 밸류 입력
         Query query = new Query(cri);
-        System.out.println("query 입력 !");
         System.out.println(query);
         Dog dog =  mongoTemplate.findOne(query, Dog.class); // 조회 후 데이터 반환
-        if (dog == null) System.out.println("해당 도그 없음 !!");
-        System.out.println("도그 반환 !");
+
         return dog;
     }
     public List<Dog> getAllDogs(){
         return mongoTemplate.findAll(Dog.class);
     }
 
-    public void changeDogKind(String newKind) {
-        // return changedDog
+    public void changeDogKind(String name,String newKind) {
 
+        Query query = new Query(Criteria.where("name").is(name));
+        Update update = Update.update("kind", newKind);
+
+        mongoTemplate.updateFirst(query, update, Dog.class);
     }
 
     public void addMedicalRecords(Dog dog,String newMedicalRecords) {
